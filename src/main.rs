@@ -5,6 +5,7 @@ mod signal;
 mod state;
 mod random;
 mod checker;
+mod io;
 // use crate::log::*;
 use config::Config;
 use forkserver::ForkServer;
@@ -19,6 +20,11 @@ fn get_afl_env(var_name: &str) -> Option<bool> {
         Ok(val) => Some(val == "1" || val.to_lowercase() == "true"),
         Err(_) => None,
     }
+}
+
+// temp
+fn atexit(){
+    unimplemented!()
 }
 fn main() {
 
@@ -45,10 +51,18 @@ fn main() {
     random::rand_set_seed();
     signal::setup_signal_handlers();
     checker::check_asan_opts();
+    checker::check_crash_handling();
+    checker::check_cpu_governor();
+    checker::get_core_count();
+
+    atexit();
+
+
+
 
     act!("start to work");
 
-    
+
 
 
 
