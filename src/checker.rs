@@ -8,7 +8,7 @@ fn getenv(var_name: &str) -> Option<String> {
     }
 }
 
-pub fn check_asan_opts(state : State) {
+pub fn check_asan_opts() {
 
     let asan = getenv("ASAN_OPTIONS");
 

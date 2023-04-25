@@ -71,7 +71,7 @@ fn main() {
 
     *GLOBAL_CONF.lock().unwrap() = Some(conf);
 
-    
+    let state = State{};
     
     random::rand_set_seed();
     signal::setup_signal_handlers();
