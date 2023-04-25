@@ -3,12 +3,14 @@ mod checker;
 mod config;
 mod signal;
 mod random;
+mod mutate;
 mod bitmap;
 mod shmem;
 mod state;
 mod fuzz;
 mod log;
 mod io;
+mod ui;
 
 // crate
 use crate::{io::read::reader, state::State};
@@ -16,6 +18,7 @@ use crate::forkserver::ForkServer;
 use crate::fuzz::executor::Fuzzer;
 use crate::io::write::writer;
 use crate::config::Config;
+use crate::ui::shower;
 
 // std
 use std::sync::Mutex;
@@ -79,6 +82,7 @@ fn main() {
     checker::check_binary();
 
     register_atexit();
+    act!("start to work");
 
     reader::read_testcases(todo!(), todo!());
     writer::pivot_inputs();
@@ -89,15 +93,10 @@ fn main() {
 
     let fuzz = Fuzzer{};
     fuzz.perform_dry_run();
+    fuzz.cull_queue();
+    /* seed validation veirfy */
 
-
-
-
-
-
-
-    act!("start to work");
-
+    shower::show_init_stats()
 
 
 
