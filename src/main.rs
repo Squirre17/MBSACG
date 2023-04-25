@@ -10,7 +10,7 @@ mod io;
 use config::Config;
 use forkserver::ForkServer;
 use clap::{arg, command, value_parser, ArgAction, Command};
-
+use crate::{io::read::reader, state::State};
 
 fn usage() {
 
@@ -23,7 +23,7 @@ fn get_afl_env(var_name: &str) -> Option<bool> {
 }
 
 // temp
-fn atexit(){
+fn register_atexit(){
     unimplemented!()
 }
 fn main() {
@@ -55,9 +55,11 @@ fn main() {
     checker::check_cpu_governor();
     checker::get_core_count();
 
-    atexit();
+    register_atexit();
 
+    reader::read_testcases(todo!(), todo!());
 
+    
 
 
     act!("start to work");
