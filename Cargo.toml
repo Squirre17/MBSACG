@@ -1,0 +1,11 @@
+[package]
+name = "mbsacg"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ansi_term = "0.12.1"
+clap = "4.2.2"
+libc = "0.2.101"
