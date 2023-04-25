@@ -2,21 +2,26 @@
 pub mod inner{
     use ansi_term::Color;
 
+    #[inline]
     pub fn _act(args: std::fmt::Arguments) {
         print!("{}", Color::Blue.bold().paint("[*] "));
         println!("{}", args);
     }
 
+    #[inline]
     pub fn _ok(args: std::fmt::Arguments) {
         print!("{}", Color::Green.bold().paint("[+] "));
         println!("{}", args);
     }
 
+    #[inline]
     pub fn _err(args: std::fmt::Arguments) {
         eprint!("{}", Color::Red.bold().paint("[!] "));
         eprintln!("{}", args);
-        std::process::exit(1)
+        // panic!()
     }
+
+    #[inline]
     pub fn _warn(args: std::fmt::Arguments) {
         print!("{}", Color::Yellow.bold().paint("[-] "));
         println!("{}", args);
@@ -35,7 +40,10 @@ macro_rules! ok {
 
 #[macro_export]
 macro_rules! err {
-    ($($arg:tt)*) => (crate::log::inner::_err(format_args!($($arg)*)));
+    ($($arg:tt)*) => ({
+        crate::log::inner::_err(format_args!($($arg)*));
+        panic!();
+    });
 }
 
 #[macro_export]
