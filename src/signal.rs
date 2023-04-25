@@ -37,8 +37,6 @@ pub fn setup_signal_handlers() {
 
     unsafe {
 
-        unimplemented!();
-
         let mut sa: MaybeUninit<libc::sigaction> = MaybeUninit::uninit();
         
         memset(

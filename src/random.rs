@@ -23,9 +23,6 @@ pub fn rand_set_seed() {
 
     *RNG_MTX.lock().unwrap() = Some(StdRng::seed_from_u64(seed));
 
-// // 生成随机数
-// let random_number = rng.next_u32();
-//     unimplemented!();
 }
 
 #[warn(non_snake_case)]
