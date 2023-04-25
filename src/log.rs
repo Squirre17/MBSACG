@@ -13,8 +13,8 @@ pub mod inner{
     }
 
     pub fn _err(args: std::fmt::Arguments) {
-        print!("{}", Color::Red.bold().paint("[!] "));
-        println!("{}", args);
+        eprint!("{}", Color::Red.bold().paint("[!] "));
+        eprintln!("{}", args);
         std::process::exit(1)
     }
     pub fn _warn(args: std::fmt::Arguments) {
