@@ -14,3 +14,8 @@ pub fn check_cpu_governor() {
 pub fn get_core_count() {
     unimplemented!()
 }
+
+pub fn check_binary() {
+    /* ELF valication + AFL instrument evidence */
+    unimplemented!()
+}

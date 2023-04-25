@@ -1,20 +1,27 @@
-mod log;
-mod config;
 mod forkserver;
-mod signal;
-mod state;
-mod random;
 mod checker;
+mod config;
+mod signal;
+mod random;
+mod bitmap;
+mod shmem;
+mod state;
+mod log;
 mod io;
+
 // crate
-use crate::config::Config;
-use crate::forkserver::ForkServer;
 use crate::{io::read::reader, state::State};
+use crate::forkserver::ForkServer;
+use crate::io::write::writer;
+use crate::config::Config;
+
 // std
 use std::sync::Mutex;
+
 // external
 use clap::{arg, command, value_parser, ArgAction, Command};
 use lazy_static::lazy_static;
+use libc::SHM_UNLOCK;
 
 fn usage() {
 
@@ -71,6 +78,15 @@ fn main() {
     register_atexit();
 
     reader::read_testcases(todo!(), todo!());
+    writer::pivot_inputs();
+
+    reader::setup_stdio_file();
+    checker::check_binary();
+
+    shmem::setup_testcase_shmem();
+
+
+
 
 
 
