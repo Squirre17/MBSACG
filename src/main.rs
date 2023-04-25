@@ -6,12 +6,14 @@ mod random;
 mod bitmap;
 mod shmem;
 mod state;
+mod fuzz;
 mod log;
 mod io;
 
 // crate
 use crate::{io::read::reader, state::State};
 use crate::forkserver::ForkServer;
+use crate::fuzz::executor::Fuzzer;
 use crate::io::write::writer;
 use crate::config::Config;
 
@@ -74,6 +76,7 @@ fn main() {
     checker::check_crash_handling();
     checker::check_cpu_governor();
     checker::get_core_count();
+    checker::check_binary();
 
     register_atexit();
 
@@ -81,9 +84,11 @@ fn main() {
     writer::pivot_inputs();
 
     reader::setup_stdio_file();
-    checker::check_binary();
 
     shmem::setup_testcase_shmem();
+
+    let fuzz = Fuzzer{};
+    fuzz.perform_dry_run();
 
 
 
