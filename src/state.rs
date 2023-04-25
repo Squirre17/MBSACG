@@ -1,7 +1,8 @@
+use crate::mutcase::MutCase;
 
 use std::collections::VecDeque;
 pub struct States {
-    que : VecDeque<State>,
+    list : VecDeque<State>,
 }
 /*
     afl->virgin_bits = ck_realloc(afl->virgin_bits, map_size);
@@ -16,10 +17,14 @@ pub struct States {
  */
 
 pub struct State {
-    
+    pub queue : VecDeque<MutCase>,
+    pub targetname : String,
 }
 impl State {
-    pub fn new() -> Self {
-        State {  }
+    pub fn new(targetname : String) -> Self {
+        State {  
+            queue : VecDeque::new(),
+            targetname
+        }
     }
 }

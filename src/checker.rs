@@ -77,7 +77,8 @@ pub fn check_binary(fpath : &Path) {
         err!("Error: File does not exist.");
     }
 
-    let mut file = match fs::File::open(fpath) {
+    use fs::File;
+    let mut file : File = match fs::File::open(fpath) {
         Err(e) => {
             err!("Error opening file: {}", e);
             unreachable!()
