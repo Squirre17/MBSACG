@@ -6,11 +6,15 @@ mod state;
 mod random;
 mod checker;
 mod io;
-// use crate::log::*;
-use config::Config;
-use forkserver::ForkServer;
-use clap::{arg, command, value_parser, ArgAction, Command};
+// crate
+use crate::config::Config;
+use crate::forkserver::ForkServer;
 use crate::{io::read::reader, state::State};
+// std
+use std::sync::Mutex;
+// external
+use clap::{arg, command, value_parser, ArgAction, Command};
+use lazy_static::lazy_static;
 
 fn usage() {
 
@@ -26,6 +30,11 @@ fn get_afl_env(var_name: &str) -> Option<bool> {
 fn register_atexit(){
     unimplemented!()
 }
+static mut CONF: Option<Config> = None;
+lazy_static! {
+    static ref GLOBAL_CONF: Mutex<Option<Config>> = Mutex::new(None);
+}
+
 fn main() {
 
     let matches = Command::new("MBSACG")
@@ -43,10 +52,14 @@ fn main() {
         matches.get_one::<String>("in").expect("required").to_string(),
         matches.get_one::<String>("out").expect("required").to_string()
     );
-    
+
     if get_afl_env("AFL_DEBUG") == Some(true) {
         conf.set_debug();
     }
+
+    *GLOBAL_CONF.lock().unwrap() = Some(conf);
+
+    
     
     random::rand_set_seed();
     signal::setup_signal_handlers();
@@ -59,7 +72,7 @@ fn main() {
 
     reader::read_testcases(todo!(), todo!());
 
-    
+
 
 
     act!("start to work");
