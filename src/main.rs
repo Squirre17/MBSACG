@@ -55,7 +55,7 @@ fn main() {
         .about("Module-based struct-aware coverage-guided fuzz")
         .arg(arg!(-i --in <VALUE> "input directory with test cases").required(true))
         .arg(arg!(-o --out <VALUE> "output directory for fuzzer findings").required(true))
-        .arg(arg!(-f --file-feed <VALUE> "feed program with file(i.e @@").required(false))
+        .arg(arg!(-f --"file-feed" <VALUE> "feed program with file(i.e @@").required(false))
         .get_matches();
 
     act!("mbsacg by <test@gmail.com>");
