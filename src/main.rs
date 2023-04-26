@@ -45,7 +45,7 @@ fn get_afl_env(var_name: &str) -> Option<bool> {
 
 // temp
 fn register_atexit(){
-    unimplemented!()
+    warn!("register_atexit not impl yet");
 }
 static mut CONF: Option<Config> = None;
 lazy_static! {

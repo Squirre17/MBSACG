@@ -97,7 +97,7 @@ pub fn check_binary(fpath : &Path) {
         Ok(_) => (),
     }
 
-    // 检查比较所有 16 个字节是否符合规范
+    // check ELF header
     if header != [0x7F, b'E', b'L', b'F', 2, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0] {
         err!("Error: Invalid ELF header.");
     }
