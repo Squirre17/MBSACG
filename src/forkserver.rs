@@ -75,21 +75,8 @@ impl ForkServer {
         let fsrv_pid = unsafe { libc::fork() };
         match fsrv_pid {
             -1 => panic!("fork() failed"),
-            0 => {
-                // CHILD PROCESS
+            0 => { /*  CHILD PROCESS */
     
-                // enable terminating on sigpipe in the childs
-                // let mask  = libc::sigset_t::
-
-                // need check
-                // let sa = libc::sigaction(SIG_DFL, )
-                
-                // {
-                //     sa_flags: 0,
-                //     sa_mask: mask,
-                //     sa_sigaction: SIG_DFL,
-                //     sa_restorer : None
-                // };
                 // Create a SigAction instance
                 // more check here
                 let mut sig_act: sigaction = unsafe { std::mem::zeroed() };
@@ -119,8 +106,8 @@ impl ForkServer {
     
                     let dev_null_fd = std::fs::File::open("/dev/null").unwrap();
                     let dev_null_fd_raw = dev_null_fd.into_raw_fd();
-                    unsafe { dup2(dev_null_fd_raw, 1) };
-                    unsafe { dup2(dev_null_fd_raw, 2) };
+                    dup2(dev_null_fd_raw, 1).unwrap();
+                    dup2(dev_null_fd_raw, 2).unwrap();
     
                 }
     
@@ -141,8 +128,8 @@ impl ForkServer {
     
                 /* Set up control and status pipes, close the unneeded original fds. */
     
-                unsafe { dup2(ctl_pipe_read, FORKSRV_FD) }.unwrap();
-                unsafe { dup2(st_pipe_write, FORKSRV_FD + 1) }.unwrap();
+                dup2(ctl_pipe_read, FORKSRV_FD).unwrap();
+                dup2(st_pipe_write, FORKSRV_FD + 1).unwrap();
     
                 close(ctl_pipe_read).unwrap();
                 close(ctl_pipe_write).unwrap();
