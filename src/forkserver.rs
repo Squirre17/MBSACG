@@ -4,9 +4,20 @@ use std::{f32::consts, ffi::c_char};
 
 
 use crate::{act, err};
+
 pub struct ForkServer {
     target_path : String,
     argv        : Vec<String>,
+}
+impl ForkServer {
+    fn argv_c_vec(&self) -> Vec<&CStr> {
+        self.argv.iter()
+                 .map(|it| unsafe {
+                    let ptr = it.as_str().as_ptr() as *const c_char ;
+                    CStr::from_ptr(ptr)
+                 })
+                 .collect::<Vec<&CStr>>()
+    }
 }
 
 impl ForkServer {
@@ -20,12 +31,7 @@ impl ForkServer {
             path = CStr::from_ptr(ptr);
         }
 
-        let argv = self.argv.iter()
-                            .map(|it| unsafe {
-                                let ptr = it.as_str().as_ptr() as *const c_char ;
-                                CStr::from_ptr(ptr)
-                            })
-                            .collect::<Vec<&CStr>>();
+        let argv = self.argv_c_vec();
 
         unistd::execv(path, argv.as_slice()).unwrap_or_else(|err|{
             err!("execv failed with : {}", err);
