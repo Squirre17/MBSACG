@@ -1,19 +1,17 @@
-use nix::unistd;
-use core::ffi::CStr;
-use std::{f32::consts, ffi::c_char};
-
-use std::os::unix::io::{FromRawFd, IntoRawFd};
-use std::process::{Command, Stdio};
-use std::io::{Read, Write};
-use std::ffi::CString;
-use libc::{SIGPIPE, sigaction, SIG_DFL, c_void};
-use nix::unistd::{setsid, dup2, close};
 use nix::sys::wait::{waitpid, WaitStatus};
-use nix::unistd::Pid;
-use nix::Error;
-use std::{thread, time};
+use nix::unistd::{setsid, dup2, close};
 use nix::sys::signal::SIGTERM;
+use nix::unistd::Pid;
+use nix::unistd;
+
+use core::ffi::CStr;
+
+
+use libc::{SIGPIPE, sigaction, c_void};
 use libc::c_int;
+
+use std::os::unix::io::IntoRawFd;
+use std::ffi::c_char;
 
 use crate::{act, err};
 
@@ -209,6 +207,7 @@ impl ForkServer {
                 let num = unsafe{
                     libc::read(self.fsrv_ctl_fd, buf.as_mut_ptr() as *mut c_void, buf.len())
                 };
+                
                 if num == 4 {
                     // All good
                 }else {

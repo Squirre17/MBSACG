@@ -22,11 +22,13 @@ use crate::cliparser::TargetArgv;
 use crate::io::write::writer;
 use crate::config::Config;
 use crate::ui::shower;
+use crate::mutcase::{MutCase, MutCases};
 
+use std::collections::VecDeque;
 // std
 use std::sync::Mutex;
 use std::path::Path;
-use std::env;
+use std::{env, vec};
 
 // external
 use clap::{arg, command, value_parser, ArgAction, Command};
@@ -93,6 +95,7 @@ fn main() {
     checker::check_binary(target_path);
 
     let state = State::new(targetname);
+    let mutcases = MutCases{cases : VecDeque::new()};
 
     register_atexit();
     act!("start to work");
